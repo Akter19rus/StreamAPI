@@ -1,5 +1,6 @@
 package com.example.StreamAPI.service;
 
+import com.example.StreamAPI.exception.EmployeeNotFoundException;
 import com.example.StreamAPI.model.EmployeesModel;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .stream()
                 .filter(employee -> employee.getDepartment() == department)
                 .max(Comparator.comparingInt(EmployeesModel::getSalary))
-                .orElseThrow();
+                .orElseThrow(() -> new EmployeeNotFoundException("Сотрудники отдела номер " + department + " не найдены"));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .stream()
                 .filter(employee -> employee.getDepartment() == department)
                 .min(Comparator.comparingInt(EmployeesModel::getSalary))
-                .orElseThrow();
+                .orElseThrow(() -> new EmployeeNotFoundException("Сотрудники отдела номер " + department + " не найдены"));
     }
 
     @Override
